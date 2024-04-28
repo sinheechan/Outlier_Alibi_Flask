@@ -1,0 +1,8 @@
+아래 버전을 최신버전으로 설정합니다.
+
+tensorflow
+alibi-detect
+pillow
+scikit-learn
+flask
+

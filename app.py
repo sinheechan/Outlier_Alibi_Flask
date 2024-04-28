@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import os
 import time
 
+# 서버를 구축하는 모듈입니다.
+
 app = Flask(__name__)
 
 # train.py 결과 모델 로드
