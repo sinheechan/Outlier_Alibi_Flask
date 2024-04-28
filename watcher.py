@@ -1,45 +1,66 @@
-# image 파일이 업로드 될 때 마다 이상 탐지 모듈 가동
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import shutil
+import os
+import client
 
-import requests
+# Target : 감시하는 폴더 
+class Target:
+    watchDir = os.getcwd()
+    watchDir = 'C:\sinheechan.github.io-master\Outlier_Alibi_MLops\image' # watcher.py 감시 디렉토리
 
-# 이미지 파일을 HTTP POST 요청을 통해 서버로 보내고, 서버에서 반환된 결과를 처리하는 역할
-def send_img(img):
-    file_path = img
-    target_url = 'http://127.0.0.1:5000/predict' # 주소
+    def __init__(self):
+        self.observer = Observer() # observer 감시
 
-    with open(file_path, 'rb') as f: # 이미지파일 읽기 : rb
-        files = {'file' : f}
-        res = requests.post(target_url, files=files)
+    def run(self):
+        print('Watcher가 정상 실행되었습니다.')
+        event_handler = Handler()
+        self.observer.schedule(event_handler, self.watchDir, 
+                               recursive=True)
+        self.observer.start()
+        try:
+            while True:
+                time.sleep(1)
+        except:
+            self.observer.stop()
+            print("Error가 발생하여 Stop을 실행합니다.")
+            self.observer.join()
 
-    if res.status_code == 200: # 정상여부 : 200
-        res = res.json() # 응답 Json
+class Handler(FileSystemEventHandler):
 
-        anomaly_score = res['prediction'] # 점수 가져오기
-        if float(anomaly_score.split(': ')[1]) >= 0.005:
-            print('이상 감지')
-        else :
-            print('이상 없음')
-    else :
-        print('Error :', res.text) # 예외처리 : Error
+# FileSystemEventHandler 클래스를 상속받음.
+# 아래 핸들러들을 오버라이드 => 파일, 디렉터리 행동에 따른 정의
+    
+    # Case 1.파일이 움직일 때 실행
+    '''
+    def on_moved(self, event): 
+        print(event)
+    
+    '''
+    # Case 2.파일, 디렉터리가 생성되면 실행
 
-# watcher 실행 시 단일 이미지 테스트용, 모듈 정상실행 테스트 목적
-if __name__ == '__main__':
-    file_path = 'Positive/00062.jpg' # 보낼 이미지 파일 경로
+    def on_created(self, event):
+        print(event)
+        file_path = event.src_path
+        if os.path.isfile(file_path):
+            client.send_img(file_path)   
+        print("파일 생성이 감지되었습니다.")
 
-    target_url = 'http://127.0.0.1:5000/predict' 
+    # Case 3.파일, 디렉터리가 삭제되면 실행 
+       
+    '''
+    def on_deleted(self, event):
+        print(event)
+    '''
+    # Case 4. 파일,디렉터리가 수정되면 실행
 
-    with open(file_path, 'rb') as f:
-        files = {'file' : f}
-        res = requests.post(target_url, files=files)
+    '''
+    def on_modified(self, event):
+        print(event)
+    '''
 
-    if res.status_code == 200:
-        res = res.json()
-        print(res)
-
-        anomaly_score = res['prediction']
-        if float(anomaly_score.split(': ')[1]) >= 0.005:
-            print('이상 감지')
-        else :
-            print('이상 없음')
-    else :
-        print('error :', res.text)
+# 본 파일에서 실행될 때만 실행되도록 함
+if __name__ == "__main__":
+    w = Target()
+    w.run()

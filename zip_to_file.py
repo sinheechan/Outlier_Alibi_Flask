@@ -3,6 +3,8 @@
 import zipfile
 import os
 
+# Kaggle : Surface Crack Detection 데이터셋
+# https://www.kaggle.com/datasets/arunrk7/surface-crack-detection
 def scratch_dataset():
     zip_file_path = r'C:/sinheechan.github.io-master/Mlops-outlier-detection_lee/archive.zip'
     extract_to_path = r'C:/sinheechan.github.io-master/Mlops-outlier-detection_lee/row_data'

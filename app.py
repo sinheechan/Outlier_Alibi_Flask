@@ -18,7 +18,7 @@ app = Flask(__name__)
 od = load_detector('outlier_detection_model')
 
 # 결과를 저장할 폴더 경로
-results_folder = 'C:/sinheechan.github.io-master/Mlops-outlier-detection_lee/results_image'
+results_folder = 'C:/sinheechan.github.io-master/Mlops-outlier-detection_lee/results_folder'
 
 # result 폴더가 없는 경우 신규 폴더 생성
 if not os.path.exists(results_folder):
