@@ -95,7 +95,7 @@ def predict():
                 img = img.astype(np.float32) / 255.
                 img = img.reshape(1, 64, 64, 3)
 
-                # Prediction
+                # 예측수행 : Prediction
                 od_preds = od.predict(img, outlier_type='instance', return_feature_score=True, return_instance_score=True)
                 instance_score = od_preds['data']['instance_score'][0]
                 return jsonify(prediction="Anomaly 점수: {:.4f}".format(instance_score))
