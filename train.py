@@ -25,9 +25,9 @@ def img_to_np(fpaths, resize=True):
     return images
 
 # Data 불러오기, Split, 정규화
-Negative_data = "C:/sinheechan.github.io-master/Mlops-outlier-detection_lee/row_data/Negative/*.jpg" # 경로
+Negative_data = "C:/sinheechan.github.io-master/Outlier_Alibi_MLops/dataset_file/Negative/*.jpg" # 경로
 img_list = glob(Negative_data) # 불러오기 => 리스트 저장
-train_img_list, val_img_list = train_test_split(img_list, test_size=0.1, random_state=2021) # split
+train_img_list, val_img_list = train_test_split(img_list, test_size=0.1, random_state=2024) # split
 x_train = img_to_np(train_img_list[:1000]) # 훈련데이터 1,000개 이미지를 넘파이로 반환
 x_train = x_train.astype(np.float32) / 255. # 이미지 정규화
 
