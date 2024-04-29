@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Anomaly Detection</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Upload</button>
+        </form>
+        {% if prediction %}
+            <p>{{ prediction }}</p>
+            <div>
+                <h2>Instance Score</h2>
+                <img src="{{ instance_score_plot }}" alt="Instance Score">
+            </div>
+            <div>
+                <h2>Feature Outlier Image</h2>
+                <img src="{{ feature_outlier_image }}" alt="Feature Outlier Image">
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
