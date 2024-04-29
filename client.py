@@ -3,7 +3,7 @@
 import requests
 
 def send_img(img):
-    file_path = img
+    file_path = "C:/sinheechan.github.io-master/Outlier_Alibi_MLops/image/*.jpg"
     target_url = 'http://127.0.0.1:5000/predict' # 타겟 주소
 
     with open(file_path, 'rb') as f: # 이미지파일 읽기 : rb
@@ -18,5 +18,6 @@ def send_img(img):
             print('이상 감지')
         else :
             print('이상 없음')
+    
     else :
         print('Error :', res.text) # 예외처리 : Error
