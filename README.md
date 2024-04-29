@@ -1,6 +1,6 @@
 # Outlier_Alibi_MLops
 
-< img src= >
+< img src= "outlier_scratch_result.png">
 
 ## Object
 
